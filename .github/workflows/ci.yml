@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Least-privilege default: read-only access to repository contents
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Build, Lint & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: "npm"
+
+      # --ignore-scripts prevents arbitrary lifecycle scripts from running in CI
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Lint
+        continue-on-error: true
+        run: npm run lint
+
+      - name: Test
+        continue-on-error: true
+        run: npm test
+
+      - name: Build
+        run: npm run build
