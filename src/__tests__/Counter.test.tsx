@@ -1,8 +1,9 @@
-import { render} from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import Counter from "../Counter";
 
 test("increments count when button is clicked", () => {
     render(<Counter />);
-    // Add the test logic below
-    throw new Error('Test logic not implemented yet');
+    const button = screen.getByRole("button", { name: /count is 0/i });
+    fireEvent.click(button);
+    expect(button).toHaveTextContent("count is 1");
 });
