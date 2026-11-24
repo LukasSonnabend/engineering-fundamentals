@@ -115,7 +115,16 @@ Three repository settings are needed for CI gating and auto-merge to work:
 
 ---
 
-## 10. Security & Supply-Chain Hygiene
+## 10. Under the Hood: How Dependabot Knows What's New & Safe
+
+- **Finding Updates**: Parses your manifests/lockfiles and queries upstream registries (npm, Docker registries, GitHub releases) in an isolated runner to compute valid lockfile updates.
+- **Detecting Vulnerabilities**: Matches your dependency graph against the **GitHub Advisory Database** (CVEs) to prioritize patched versions.
+- **Predicting Breakage**: Shows a **Compatibility Score** based on anonymized CI pass/fail rates for that same update across public GitHub repositories.
+- **Final Safety Gate**: Dependabot does not guarantee runtime safety on its own—**your CI checks** and **SemVer policies** (e.g., holding major bumps for review) are what validate the update.
+
+---
+
+## 11. Security & Supply-Chain Hygiene
 
 Key guardrails for enterprise dependency automation:
 
